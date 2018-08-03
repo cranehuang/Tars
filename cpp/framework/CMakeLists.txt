@@ -8,7 +8,7 @@ include_directories(${MYSQL_DIR_INC})
 
 link_libraries(tarsservant tarsutil)
 link_libraries(${MYSQL_DIR_LIB}/libmysqlclient.a)
-link_libraries(pthread z dl)
+link_libraries(ssl crypto pthread z dl)
 if(NOT APPLE)
     link_libraries(rt)
 endif()

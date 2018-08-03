@@ -56,21 +56,21 @@ template<typename TWriter = BufferWriter, typename TReader = BufferReader,templa
 class UniAttribute
 {
     typedef vector<char,Alloc<char> > VECTOR_CHAR_TYPE;
-    typedef map<string, VECTOR_CHAR_TYPE, less<string>,Alloc< pair<string,VECTOR_CHAR_TYPE > > > VECTOR_CHAR_IN_MAP_TYPE;
-    typedef map<string, VECTOR_CHAR_IN_MAP_TYPE, less<string>,Alloc< pair<string,VECTOR_CHAR_IN_MAP_TYPE > > >   WUP_DATA_TYPE;
+    typedef map<string, VECTOR_CHAR_TYPE, less<string>,Alloc< pair<const string,VECTOR_CHAR_TYPE > > > VECTOR_CHAR_IN_MAP_TYPE;
+    typedef map<string, VECTOR_CHAR_IN_MAP_TYPE, less<string>,Alloc< pair<const string,VECTOR_CHAR_IN_MAP_TYPE > > >   WUP_DATA_TYPE;
 
 public:
-	/**
+    /**
      * 构造函数
      */
     UniAttribute()
     {
-	    _iVer = 3;
+        _iVer = 3;
     }
 
     void setVersion(short iVer)
     {
-	    _iVer = iVer;
+        _iVer = iVer;
     }
     /**
      * 添加属性值
@@ -85,8 +85,8 @@ public:
 
         os.write(t, 0);
 
-		VECTOR_CHAR_TYPE & v = _data[name];
-		v.assign(os.getBuffer(), os.getBuffer() + os.getLength());
+        VECTOR_CHAR_TYPE & v = _data[name];
+        v.assign(os.getBuffer(), os.getBuffer() + os.getLength());
 
     }
 
@@ -132,13 +132,13 @@ public:
 
         if (mit != _data.end())
         {
-	        is.reset();
+            is.reset();
 
-	        is.setBuffer(mit->second);
+            is.setBuffer(mit->second);
 
-	        is.read(t, 0, true);
+            is.read(t, 0, true);
 
-	        return;
+            return;
 
         }
         throw runtime_error(string("UniAttribute not found key:") +  name);
@@ -212,7 +212,7 @@ public:
         os.reset();
 
         os.write(_data, 0);
-		
+        
         buff.assign(os.getBuffer(), os.getLength());
     }
 
@@ -259,9 +259,9 @@ public:
         is.setBuffer(buff, len);
 
         _data.clear();
-	
+    
         is.read(_data, 0, true);
-		
+        
     }
     /**
      * 解码
@@ -274,11 +274,11 @@ public:
         is.reset();
 
         is.setBuffer(buff);
-	
+    
         _data.clear();
-	
+    
         is.read(_data, 0, true);
-		
+        
     }
 
     /**
@@ -288,7 +288,7 @@ public:
      */
     const map<string, vector<char> >& getData() const
     {
-	    return _data;
+        return _data;
     }
 
     /**
@@ -479,9 +479,9 @@ public:
         is.setBuffer(sBuffer);
 
         UniAttribute<TWriter, TReader,Alloc>::_data.clear();
-	
+    
         is.read(UniAttribute<TWriter, TReader,Alloc>::_data, 0, true);
-		
+        
     }
 public:
     /**
@@ -533,7 +533,7 @@ protected:
         os.reset();
 
         os.write(UniAttribute<TWriter, TReader,Alloc>::_data, 0);
-	
+    
         sBuffer.assign(os.getBuffer(), os.getBuffer() + os.getLength());
 
         os.reset();
